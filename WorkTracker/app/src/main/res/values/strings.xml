@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">WorkTracker</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_home">Track your work</string>
+    <string name="title_dashboard">Raports</string>
+    <string name="title_notifications">Settings</string>
 </resources>
