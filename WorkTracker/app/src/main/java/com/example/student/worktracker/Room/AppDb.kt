@@ -1,4 +1,4 @@
-package com.example.student.worktracker
+package com.example.student.worktracker.Room
 
 import android.arch.persistence.room.Database
 import android.arch.persistence.room.RoomDatabase

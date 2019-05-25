@@ -1,4 +1,4 @@
-package com.example.student.worktracker
+package com.example.student.worktracker.Room
 
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey
