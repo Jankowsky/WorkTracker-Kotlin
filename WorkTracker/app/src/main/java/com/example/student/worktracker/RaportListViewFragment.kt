@@ -17,6 +17,7 @@ import android.widget.ListView
 import com.example.student.worktracker.Room.AppDb
 import com.example.student.worktracker.Room.Raport
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.list_row_layout.*
 import java.util.*
 import java.util.concurrent.Executor
 import java.util.concurrent.Executors
@@ -32,7 +33,7 @@ private const val ARG_PARAM2 = "param2"
  *
  */
 class RaportListViewFragment : Fragment() {
-     var adapter : ListAdapter?= null
+     var adapter : com.example.student.worktracker.ListAdapter?= null
      var db : AppDb? = null
      var RaportList: ListView? = null
 
@@ -42,28 +43,31 @@ class RaportListViewFragment : Fragment() {
         db = AppDb(context!!)
 
         val myExecutor = Executors.newSingleThreadExecutor()
-        myExecutor.execute{ ->
+        myExecutor.execute{
 
+            //var raport = Raport()
+            //raport.Category = "X"
+            //raport.StartDate = Date().toString()
+            //raport.WorkTime = 8
+            //db!!.raportDao().addRaport(raport)
 
-            var raport = Raport()
-            raport.Category = "X"
-            raport.StartDate = Date().toString()
-            raport.WorkTime = 8
-
-            db!!.raportDao().addRaport(raport)
 
             var raports = db!!.raportDao().getRaports()
-            var listItems = arrayOfNulls<String>(raports.size)
+            var listItemsWorkTime = arrayOfNulls<Int>(raports.size)
+            var listItemsCategory = arrayOfNulls<String>(raports.size)
+            var listItemsDate = arrayOfNulls<String>(raports.size)
 
             for(i in 0 until raports.size)
             {
-               val raport = raports[i]
-               listItems[i] = raport.StartDate
-                Log.i(" item: ", raport.StartDate)
+                val raport = raports[i]
+                listItemsCategory[i] = raport.Category
+                listItemsDate[i] = raport.StartDate
+                listItemsWorkTime[i] = raport.WorkTime
+                //Log.i(" item: ", raport.StartDate)
             }
 
 
-            adapter = ArrayAdapter(context!!, R.layout.fragment_raport_list_view, R.id.listFragmentTextView, listItems)
+            adapter = com.example.student.worktracker.ListAdapter(activity!!, listItemsCategory, listItemsDate, listItemsWorkTime)
             activity!!.runOnUiThread(Runnable {
                 RaportList!!.adapter = adapter
             })
