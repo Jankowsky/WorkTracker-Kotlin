@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">WorkTracker</string>
-    <string name="title_home">Track your work</string>
-    <string name="title_dashboard">Raports</string>
-    <string name="title_notifications">Settings</string>
+    <string name="title_home">Raports list</string>
+    <string name="title_dashboard">Add Raport</string>
+    <string name="title_notifications">Raport diagrams</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

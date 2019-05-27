@@ -3,12 +3,20 @@
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
-             tools:context=".RaportListViewFragment">
+             tools:context=".RaportListViewFragment"
+             android:background="@color/colorPrimaryDark">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
+            android:id="@+id/listFragmentTextView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:text="@string/hello_blank_fragment"/>
+    <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:id="@+id/RaportsList"/>
+
 
 </FrameLayout>
