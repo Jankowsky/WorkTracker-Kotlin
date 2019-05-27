@@ -6,7 +6,6 @@
              tools:context=".RaportListViewFragment"
              android:background="@color/colorPrimaryDark">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
             android:id="@+id/listFragmentTextView"
             android:layout_width="match_parent"

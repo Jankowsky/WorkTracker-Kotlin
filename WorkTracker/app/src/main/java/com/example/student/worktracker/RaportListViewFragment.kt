@@ -36,6 +36,9 @@ class RaportListViewFragment : Fragment() {
      var adapter : com.example.student.worktracker.ListAdapter?= null
      var db : AppDb? = null
      var RaportList: ListView? = null
+     var listItemsWorkTime : Array<Int?>? =null
+     var listItemsCategory  : Array<String?>? = null
+     var listItemsDate : Array<String?>? = null
 
 
     override fun onAttach(context: Context?) {
@@ -45,36 +48,37 @@ class RaportListViewFragment : Fragment() {
         val myExecutor = Executors.newSingleThreadExecutor()
         myExecutor.execute{
 
-            //var raport = Raport()
-            //raport.Category = "X"
-            //raport.StartDate = Date().toString()
-            //raport.WorkTime = 8
-            //db!!.raportDao().addRaport(raport)
+
 
 
             var raports = db!!.raportDao().getRaports()
-            var listItemsWorkTime = arrayOfNulls<Int>(raports.size)
-            var listItemsCategory = arrayOfNulls<String>(raports.size)
-            var listItemsDate = arrayOfNulls<String>(raports.size)
+            listItemsWorkTime = arrayOfNulls<Int>(raports.size)
+            listItemsCategory = arrayOfNulls<String>(raports.size)
+            listItemsDate = arrayOfNulls<String>(raports.size)
 
             for(i in 0 until raports.size)
             {
                 val raport = raports[i]
-                listItemsCategory[i] = raport.Category
-                listItemsDate[i] = raport.StartDate
-                listItemsWorkTime[i] = raport.WorkTime
-                //Log.i(" item: ", raport.StartDate)
+                listItemsCategory!![i] = raport.Category
+                listItemsDate!![i] = raport.StartDate
+                listItemsWorkTime!![i] = raport.WorkTime
             }
 
 
-            adapter = com.example.student.worktracker.ListAdapter(activity!!, listItemsCategory, listItemsDate, listItemsWorkTime)
+            adapter = com.example.student.worktracker.ListAdapter(activity!!, listItemsCategory!!, listItemsDate!!, listItemsWorkTime!!)
             activity!!.runOnUiThread(Runnable {
                 RaportList!!.adapter = adapter
+                adapter!!.notifyDataSetChanged()
             })
 
         }
 
 
+    }
+
+    override fun onPause() {
+        super.onPause()
+        super.onDestroyView()
     }
 
     override fun onCreateView(
@@ -100,6 +104,9 @@ class RaportListViewFragment : Fragment() {
 
 
     }
+
+
+
 
 
 }
