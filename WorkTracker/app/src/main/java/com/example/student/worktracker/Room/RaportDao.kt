@@ -12,4 +12,7 @@ interface RaportDao
 
     @Query("SELECT * FROM raports")
     fun getRaports() : List<Raport>
+
+    @Query("SELECT Category FROM raports GROUP BY Category")
+    fun getCategories() : List<String>
 }

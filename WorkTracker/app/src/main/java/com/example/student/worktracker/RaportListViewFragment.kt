@@ -47,33 +47,21 @@ class RaportListViewFragment : Fragment() {
 
         val myExecutor = Executors.newSingleThreadExecutor()
         myExecutor.execute{
-
-
-
-
-            var raports = db!!.raportDao().getRaports()
-            listItemsWorkTime = arrayOfNulls<Int>(raports.size)
-            listItemsCategory = arrayOfNulls<String>(raports.size)
-            listItemsDate = arrayOfNulls<String>(raports.size)
-
-            for(i in 0 until raports.size)
-            {
-                val raport = raports[i]
-                listItemsCategory!![i] = raport.Category
-                listItemsDate!![i] = raport.StartDate
-                listItemsWorkTime!![i] = raport.WorkTime
-            }
-
-
+            refreshList()
             adapter = com.example.student.worktracker.ListAdapter(activity!!, listItemsCategory!!, listItemsDate!!, listItemsWorkTime!!)
             activity!!.runOnUiThread(Runnable {
                 RaportList!!.adapter = adapter
                 adapter!!.notifyDataSetChanged()
+
             })
 
         }
 
 
+    }
+
+    override fun onResume() {
+        super.onResume()
     }
 
     override fun onPause() {
@@ -85,7 +73,14 @@ class RaportListViewFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
+        if(adapter != null)
+        {
+            val myExecutor = Executors.newSingleThreadExecutor()
+            myExecutor.execute{
+                refreshList()
+            }
+            adapter!!.notifyDataSetChanged()
+        }
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_raport_list_view, container, false)
     }
@@ -103,6 +98,23 @@ class RaportListViewFragment : Fragment() {
         })
 
 
+    }
+
+    fun refreshList()
+    {
+        var raports = db!!.raportDao().getRaports()
+
+        listItemsWorkTime = arrayOfNulls<Int>(raports.size)
+        listItemsCategory = arrayOfNulls<String>(raports.size)
+        listItemsDate = arrayOfNulls<String>(raports.size)
+
+        for(i in 0 until raports.size)
+        {
+            val raport = raports[i]
+            listItemsCategory!![i] = raport.Category
+            listItemsDate!![i] = raport.StartDate
+            listItemsWorkTime!![i] = raport.WorkTime
+        }
     }
 
 

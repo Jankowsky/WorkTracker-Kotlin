@@ -5,17 +5,16 @@
              android:layout_height="match_parent"
              tools:context=".RaportListViewFragment"
              android:background="@color/colorPrimaryDark">
-
-    <TextView
-            android:id="@+id/listFragmentTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/hello_blank_fragment"/>
     <ListView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:id="@+id/RaportsList"/>
+            android:layout_marginBottom="30dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:id="@+id/RaportsList"
+            android:stackFromBottom="true"
+            android:transcriptMode="normal"/>
 
 
 </FrameLayout>

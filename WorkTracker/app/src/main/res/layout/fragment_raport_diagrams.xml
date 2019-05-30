@@ -6,10 +6,15 @@
              tools:context=".RaportDiagramsFragment"
              android:background="@color/colorPrimary">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/hello_blank_fragment"/>
 
+    <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/spinner"
+            android:layout_marginTop="20sp"
+            android:layout_marginRight="30dp"
+            android:layout_marginLeft="30dp"
+            android:paddingRight="0dp"
+            android:paddingLeft="0dp"
+            android:gravity="center"/>
 </FrameLayout>

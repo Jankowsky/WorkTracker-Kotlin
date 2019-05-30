@@ -17,6 +17,7 @@ import java.util.*
 import java.util.concurrent.Executors
 import android.app.Activity
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -40,34 +41,17 @@ class AddRaportFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         db = AppDb(context!!)
         activity!!.runOnUiThread(Runnable {
-            addButton = activity!!.findViewById(R.id.addRaportBtn)
+            addButton = activity!!.findViewById<Button>(R.id.addRaportBtn)
             entryCategory = activity!!.findViewById<EditText>(R.id.entryCompany)
 
-
                 addButton!!.setOnClickListener {
-
-
-
-                    val myExecutor = Executors.newSingleThreadExecutor()
-                    myExecutor.execute {
-
-                        var raport = Raport()
-                        raport.Category = entryCategory!!.text.toString()
-                        raport.StartDate = Date().toString()
-                        raport.WorkTime = 220
-
-                        db!!.raportDao().addRaport(raport)
-                        db!!.beginTransaction()
-
-                    }
+                    addRaport()
                     hideSoftKeyboard(activity!!)
-                    entryCategory!!.setText("")
+                    //(activity as MainActivity).createRaportListViewFragment()
                     //hideSoftKeyboard(activity!!)
+                    Toast.makeText(activity!!, "added raport", Toast.LENGTH_SHORT).show()
                 }
-
         })
-
-
     }
 
     override fun onCreateView(
@@ -83,9 +67,32 @@ class AddRaportFragment : Fragment() {
         val inputMethodManager = activity.getSystemService(
             Activity.INPUT_METHOD_SERVICE
         ) as InputMethodManager
-        inputMethodManager.hideSoftInputFromWindow(
-            activity.currentFocus!!.windowToken, 0
-        )
+        if(inputMethodManager.isActive)
+        {
+            //inputMethodManager.hideSoftInputFromWindow( activity.currentFocus!!.windowToken, 0 )
+            inputMethodManager.hideSoftInputFromWindow( getView()!!.getRootView().getWindowToken(), 0 )
+
+        }
+    }
+
+    fun addRaport()
+    {
+        val myExecutor = Executors.newSingleThreadExecutor()
+        myExecutor.execute {
+
+            var raport = Raport()
+            raport.Category = entryCategory!!.text.toString()
+            raport.StartDate = Date().toString()
+            raport.WorkTime = 220
+
+            db!!.raportDao().addRaport(raport)
+
+            //db!!.beginTransaction()
+            activity!!.runOnUiThread(Runnable {
+                entryCategory!!.setText("")
+            })
+        }
+
     }
 
 }
