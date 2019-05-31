@@ -4,7 +4,7 @@
              android:layout_width="match_parent"
              android:layout_height="match_parent"
              tools:context=".RaportDiagramsFragment"
-             android:background="@color/colorPrimary">
+             android:background="@color/secondaryDarkColor">
 
 
     <Spinner
@@ -17,4 +17,21 @@
             android:paddingRight="0dp"
             android:paddingLeft="0dp"
             android:gravity="center"/>
+    <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/spinner2"
+            android:layout_marginTop="44sp"
+            android:layout_marginRight="30dp"
+            android:layout_marginLeft="30dp"
+            android:paddingRight="0dp"
+            android:paddingLeft="0dp"
+            android:gravity="center"/>
+    
+    <com.github.mikephil.charting.charts.BarChart
+            android:id="@+id/chart"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:layout_marginTop="100dp"/>
+
 </FrameLayout>

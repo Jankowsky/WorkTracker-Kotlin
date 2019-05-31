@@ -18,6 +18,14 @@ import java.util.concurrent.Executors
 import android.app.Activity
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import android.widget.DatePicker
+import android.app.DatePickerDialog
+import android.widget.TimePicker
+import android.app.TimePickerDialog
+
+
+
+
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -34,6 +42,18 @@ class AddRaportFragment : Fragment() {
     var db : AppDb? = null
     var addButton : Button? = null
     var entryCategory : EditText? = null
+    var selectDateBtn : Button? = null
+    var selectStartTimeBtn : Button? = null
+    var selectEndTimeBtn : Button? = null
+    var in_date : EditText? = null
+    var in_startTime : EditText? = null
+    var in_endTime : EditText? = null
+
+    private var mYear: Int = 0
+    private var mMonth: Int = 0
+    private var mDay: Int = 0
+    private var mHour: Int = 0
+    private var mMinute: Int = 0
 
 
 
@@ -42,7 +62,13 @@ class AddRaportFragment : Fragment() {
         db = AppDb(context!!)
         activity!!.runOnUiThread(Runnable {
             addButton = activity!!.findViewById<Button>(R.id.addRaportBtn)
+            selectDateBtn = activity!!.findViewById<Button>(R.id.selectDateBtn)
+            selectStartTimeBtn = activity!!.findViewById<Button>(R.id.selectStartTimeBtn)
+            selectEndTimeBtn = activity!!.findViewById<Button>(R.id.selectEndTimeBtn)
             entryCategory = activity!!.findViewById<EditText>(R.id.entryCompany)
+            in_date = activity!!.findViewById<EditText>(R.id.in_date)
+            in_startTime = activity!!.findViewById<EditText>(R.id.in_startTime)
+            in_endTime = activity!!.findViewById<EditText>(R.id.in_endTime)
 
                 addButton!!.setOnClickListener {
                     addRaport()
@@ -50,6 +76,53 @@ class AddRaportFragment : Fragment() {
                     //(activity as MainActivity).createRaportListViewFragment()
                     //hideSoftKeyboard(activity!!)
                     Toast.makeText(activity!!, "added raport", Toast.LENGTH_SHORT).show()
+                }
+
+                selectDateBtn!!.setOnClickListener {
+                    val c = Calendar.getInstance()
+                    mYear = c.get(Calendar.YEAR)
+                    mMonth = c.get(Calendar.MONTH)
+                    mDay = c.get(Calendar.DAY_OF_MONTH)
+
+
+                    val datePickerDialog = DatePickerDialog(activity,
+                        DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+                            in_date!!.setText(
+                                dayOfMonth.toString() + "-" + (monthOfYear + 1) + "-" + year
+                            )
+                        }, mYear, mMonth, mDay
+                    )
+                    datePickerDialog.show()
+                }
+
+                selectStartTimeBtn!!.setOnClickListener {
+                    val c = Calendar.getInstance()
+                    mHour = c.get(Calendar.HOUR_OF_DAY)
+                    mMinute = c.get(Calendar.MINUTE)
+
+                    // Launch Time Picker Dialog
+                    val timePickerDialog = TimePickerDialog(activity,
+                        TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute -> in_startTime!!.setText("$hourOfDay:$minute") },
+                        mHour,
+                        mMinute,
+                        false
+                    )
+                    timePickerDialog.show()
+                }
+
+                selectEndTimeBtn!!.setOnClickListener {
+                    val c = Calendar.getInstance()
+                    mHour = c.get(Calendar.HOUR_OF_DAY)
+                    mMinute = c.get(Calendar.MINUTE)
+
+                    // Launch Time Picker Dialog
+                    val timePickerDialog = TimePickerDialog(activity,
+                        TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute -> in_endTime!!.setText("$hourOfDay:$minute") },
+                        mHour,
+                        mMinute,
+                        false
+                    )
+                    timePickerDialog.show()
                 }
         })
     }
