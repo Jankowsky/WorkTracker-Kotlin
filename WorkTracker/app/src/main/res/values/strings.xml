@@ -16,4 +16,7 @@
     <string name="pickDate">Pick date:</string>
     <string name="seletDate">Select Date</string>
     <string name="selectTime">Select Time</string>
+    <string name="fillEmpty">Fill empty fields</string>
+    <string name="addedRaport">Added raport</string>
+    <string name="timeError">You can\'t work negative hours number.</string>
 </resources>

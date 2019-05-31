@@ -22,10 +22,7 @@ import android.widget.DatePicker
 import android.app.DatePickerDialog
 import android.widget.TimePicker
 import android.app.TimePickerDialog
-
-
-
-
+import java.text.SimpleDateFormat
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -54,6 +51,8 @@ class AddRaportFragment : Fragment() {
     private var mDay: Int = 0
     private var mHour: Int = 0
     private var mMinute: Int = 0
+    private var mStartTime: Int = 0
+    private var mEndTime: Int = 0
 
 
 
@@ -75,7 +74,7 @@ class AddRaportFragment : Fragment() {
                     hideSoftKeyboard(activity!!)
                     //(activity as MainActivity).createRaportListViewFragment()
                     //hideSoftKeyboard(activity!!)
-                    Toast.makeText(activity!!, "added raport", Toast.LENGTH_SHORT).show()
+                    //Toast.makeText(activity!!, "added raport", Toast.LENGTH_SHORT).show()
                 }
 
                 selectDateBtn!!.setOnClickListener {
@@ -102,12 +101,15 @@ class AddRaportFragment : Fragment() {
 
                     // Launch Time Picker Dialog
                     val timePickerDialog = TimePickerDialog(activity,
-                        TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute -> in_startTime!!.setText("$hourOfDay:$minute") },
+                        TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
+                            in_startTime!!.setText("$hourOfDay:$minute")
+                            mStartTime = (hourOfDay*60)+minute},
                         mHour,
                         mMinute,
-                        false
+                        true
                     )
                     timePickerDialog.show()
+
                 }
 
                 selectEndTimeBtn!!.setOnClickListener {
@@ -117,12 +119,15 @@ class AddRaportFragment : Fragment() {
 
                     // Launch Time Picker Dialog
                     val timePickerDialog = TimePickerDialog(activity,
-                        TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute -> in_endTime!!.setText("$hourOfDay:$minute") },
+                        TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
+                            in_endTime!!.setText("$hourOfDay:$minute")
+                            mEndTime = (hourOfDay*60)+minute},
                         mHour,
                         mMinute,
-                        false
+                        true
                     )
                     timePickerDialog.show()
+
                 }
         })
     }
@@ -150,21 +155,40 @@ class AddRaportFragment : Fragment() {
 
     fun addRaport()
     {
-        val myExecutor = Executors.newSingleThreadExecutor()
-        myExecutor.execute {
+        if(in_date!!.text.toString() != "" &&
+            in_startTime!!.text.toString() != "" &&
+            in_endTime!!.text.toString() != "" &&
+            entryCategory!!.text.toString() != "")
+        {
+            if(mStartTime < mEndTime) {
+                val myExecutor = Executors.newSingleThreadExecutor()
+                myExecutor.execute {
 
-            var raport = Raport()
-            raport.Category = entryCategory!!.text.toString()
-            raport.StartDate = Date().toString()
-            raport.WorkTime = 220
+                    var raport = Raport()
+                    raport.Category = entryCategory!!.text.toString()
+                    var format = SimpleDateFormat("DD/MM/yyyy hh:mm")
+                    var date =format.parse("$mDay/$mMonth/$mYear $mHour:$mMinute")
+                    raport.StartDate = format.format(date)
+                    raport.WorkTime = mEndTime - mStartTime
 
-            db!!.raportDao().addRaport(raport)
+                    db!!.raportDao().addRaport(raport)
+                    //activity!!.runOnUiThread(Runnable {
+                    //   entryCategory!!.setText("")
+                    //})
+                }
+                Toast.makeText(activity!!, getString(R.string.addedRaport), Toast.LENGTH_SHORT).show()
+            }
+            else
+            {
+                Toast.makeText(activity!!, getString(R.string.timeError), Toast.LENGTH_LONG).show()
+            }
 
-            //db!!.beginTransaction()
-            activity!!.runOnUiThread(Runnable {
-                entryCategory!!.setText("")
-            })
         }
+        else
+        {
+            Toast.makeText(activity!!, getString(R.string.fillEmpty), Toast.LENGTH_LONG).show()
+        }
+
 
     }
 
