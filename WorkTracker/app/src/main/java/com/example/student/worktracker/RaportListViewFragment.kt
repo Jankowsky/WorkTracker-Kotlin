@@ -1,25 +1,15 @@
 package com.example.student.worktracker
 
 
-import android.app.Application
 import android.content.Context
 import android.os.Bundle
-import android.support.annotation.MainThread
 import android.support.v4.app.Fragment
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Adapter
-import android.widget.ArrayAdapter
-import android.widget.ListAdapter
-import android.widget.ListView
+import android.widget.*
 import com.example.student.worktracker.Room.AppDb
-import com.example.student.worktracker.Room.Raport
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.list_row_layout.*
 import java.util.*
-import java.util.concurrent.Executor
 import java.util.concurrent.Executors
 
 
@@ -36,9 +26,9 @@ class RaportListViewFragment : Fragment() {
      var adapter : com.example.student.worktracker.ListAdapter?= null
      var db : AppDb? = null
      var RaportList: ListView? = null
-     var listItemsWorkTime : Array<Int?>? =null
-     var listItemsCategory  : Array<String?>? = null
-     var listItemsDate : Array<String?>? = null
+     var listItemsWorkTime : ArrayList<Int> = arrayListOf()
+     var listItemsCategory  : ArrayList<String> = arrayListOf()
+     var listItemsDate : ArrayList<String> = arrayListOf()
 
 
     override fun onAttach(context: Context?) {
@@ -48,7 +38,7 @@ class RaportListViewFragment : Fragment() {
         val myExecutor = Executors.newSingleThreadExecutor()
         myExecutor.execute{
             refreshList()
-            adapter = com.example.student.worktracker.ListAdapter(activity!!, listItemsCategory!!, listItemsDate!!, listItemsWorkTime!!)
+            adapter = com.example.student.worktracker.ListAdapter(activity!!, listItemsCategory, listItemsDate, listItemsWorkTime)
             activity!!.runOnUiThread(Runnable {
                 RaportList!!.adapter = adapter
                 adapter!!.notifyDataSetChanged()
@@ -75,8 +65,8 @@ class RaportListViewFragment : Fragment() {
     ): View? {
         if(adapter != null)
         {
-            val myExecutor = Executors.newSingleThreadExecutor()
-            myExecutor.execute{
+                val myExecutor = Executors.newSingleThreadExecutor()
+                myExecutor.execute{
                 refreshList()
             }
             adapter!!.notifyDataSetChanged()
@@ -95,8 +85,12 @@ class RaportListViewFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         activity!!.runOnUiThread(Runnable {
             RaportList = activity!!.findViewById(R.id.RaportsList)
-        })
+            RaportList!!.onItemLongClickListener = AdapterView.OnItemLongClickListener { parent, view, position, id ->
+                removeItem(position)
 
+                true
+            }
+        })
 
     }
 
@@ -104,21 +98,28 @@ class RaportListViewFragment : Fragment() {
     {
         var raports = db!!.raportDao().getRaports()
 
-        listItemsWorkTime = arrayOfNulls<Int>(raports.size)
-        listItemsCategory = arrayOfNulls<String>(raports.size)
-        listItemsDate = arrayOfNulls<String>(raports.size)
+        activity!!.runOnUiThread(Runnable {
+            listItemsCategory.clear()
+            listItemsDate.clear()
+            listItemsWorkTime.clear()
 
-        for(i in 0 until raports.size)
-        {
-            val raport = raports[i]
-            listItemsCategory!![i] = raport.Category
-            listItemsDate!![i] = raport.StartDate
-            listItemsWorkTime!![i] = raport.WorkTime
-        }
+            for (i in 0 until raports.size) {
+                val raport = raports[i]
+                listItemsCategory!!.add(raport.Category)
+                listItemsDate!!.add(raport.StartDate)
+                listItemsWorkTime!!.add(raport.WorkTime)
+            }
+            adapter!!.notifyDataSetChanged()
+        })
     }
 
-
-
-
+    fun removeItem(id : Int)
+    {
+        val myExecutor = Executors.newSingleThreadExecutor()
+        myExecutor.execute {
+            db!!.raportDao().deleteRaport(listItemsDate!![id].toString())
+            refreshList()
+        }
+    }
 
 }

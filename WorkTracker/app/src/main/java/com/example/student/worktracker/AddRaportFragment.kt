@@ -167,6 +167,8 @@ class AddRaportFragment : Fragment() {
                     var raport = Raport()
                     raport.Category = entryCategory!!.text.toString()
                     var format = SimpleDateFormat("DD/MM/yyyy hh:mm")
+                    mHour = mStartTime / 60
+                    mMinute = mStartTime % 60
                     var date =format.parse("$mDay/$mMonth/$mYear $mHour:$mMinute")
                     raport.StartDate = format.format(date)
                     raport.WorkTime = mEndTime - mStartTime

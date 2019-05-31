@@ -12,7 +12,7 @@ class Raport
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
     var Category : String = ""
-    var StartDate : String? = null
-    var WorkTime : Int? = null
+    var StartDate : String = ""
+    var WorkTime : Int = 0
 
 }
