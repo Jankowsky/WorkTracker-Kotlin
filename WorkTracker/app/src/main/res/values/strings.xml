@@ -19,4 +19,7 @@
     <string name="fillEmpty">Fill empty fields</string>
     <string name="addedRaport">Added raport</string>
     <string name="timeError">You can\'t work negative hours number.</string>
+    <string name="hour">h</string>
+    <string name="and">and</string>
+    <string name="minutes">min.</string>
 </resources>

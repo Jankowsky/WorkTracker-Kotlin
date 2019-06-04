@@ -3,6 +3,9 @@ package com.example.student.worktracker
 import android.arch.persistence.room.Room
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
+import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentManager
+import android.support.v4.app.FragmentTransaction
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import com.example.student.worktracker.Room.AppDb
@@ -10,21 +13,22 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    val manager = supportFragmentManager
-
+    val listFragment = RaportListViewFragment()
+    val addFragment = AddRaportFragment()
+    val diagramsFragment = RaportDiagramsFragment()
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
             R.id.navigation_home -> {
-                createRaportListViewFragment()
+                replaceFragment(0)
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_dashboard -> {
-                createAddRaportFragment()
+                replaceFragment(1)
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_notifications -> {
-                createRaportDiagramsFragment()
+                replaceFragment(2)
                 return@OnNavigationItemSelectedListener true
             }
         }
@@ -35,57 +39,29 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        createRaportListViewFragment()
-
-        //var t = Thread(Runnable {
-           // var db = Room.databaseBuilder(applicationContext, AppDb:: class.java, "WorkTimeDb").build()
-
-            //var raport = Raport()
-            //raport.Category = "X"
-            //raport.StartDate = Date().toString()
-            //raport.WorkTime = 8
-
-            //db.raportDao().addRaport(raport)
-
-
-
-          //  db.raportDao().getRaports().forEach{
-           //     Log.i("@AKTDEV", "Id "+ it.id)
-           //     Log.i("@AKTDEV", "Category "+ it.Category)
-           //     Log.i("@AKTDEV", "Date  "+ it.StartDate)
-            //}
-        //}).start()
-
-
-
-
+        replaceFragment(0)
 
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
     }
 
+    private fun replaceFragment(index: Int)
+    {
+        val fm : FragmentManager = supportFragmentManager
+        val ft : FragmentTransaction = fm.beginTransaction()
 
-    fun createRaportListViewFragment()
-    {
-        val transaction = manager.beginTransaction()
-        val fragment = RaportListViewFragment()
-        transaction.replace(R.id.fragmentHolder, fragment)
-        transaction.addToBackStack(null)
-        transaction.commit()
+        when (index)
+        {
+            0->{
+                ft.replace(R.id.fragmentHolder, listFragment)
+            }
+            1->{
+                ft.replace(R.id.fragmentHolder, addFragment)
+            }
+            2->{
+                ft.replace(R.id.fragmentHolder, diagramsFragment)
+            }
+        }
+        ft.commit()
     }
-    fun createAddRaportFragment()
-    {
-        val transaction = manager.beginTransaction()
-        val fragment = AddRaportFragment()
-        transaction.replace(R.id.fragmentHolder, fragment)
-        transaction.addToBackStack(null)
-        transaction.commit()
-    }
-    fun createRaportDiagramsFragment()
-    {
-        val transaction = manager.beginTransaction()
-        val fragment = RaportDiagramsFragment()
-        transaction.replace(R.id.fragmentHolder, fragment)
-        transaction.addToBackStack(null)
-        transaction.commit()
-    }
+
 }

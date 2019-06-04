@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import com.example.student.worktracker.Room.AppDb
+import kotlinx.android.synthetic.main.list_row_layout.*
 import java.util.*
 import java.util.concurrent.Executors
 
@@ -26,7 +27,7 @@ class RaportListViewFragment : Fragment() {
      var adapter : com.example.student.worktracker.ListAdapter?= null
      var db : AppDb? = null
      var RaportList: ListView? = null
-     var listItemsWorkTime : ArrayList<Int> = arrayListOf()
+     var listItemsWorkTime : ArrayList<String> = arrayListOf()
      var listItemsCategory  : ArrayList<String> = arrayListOf()
      var listItemsDate : ArrayList<String> = arrayListOf()
 
@@ -107,7 +108,8 @@ class RaportListViewFragment : Fragment() {
                 val raport = raports[i]
                 listItemsCategory!!.add(raport.Category)
                 listItemsDate!!.add(raport.StartDate)
-                listItemsWorkTime!!.add(raport.WorkTime)
+                var time = "${raport.WorkTime/60} ${getString(R.string.hour)} ${getString(R.string.and)} ${raport.WorkTime%60} ${getString(R.string.minutes)}"
+                listItemsWorkTime!!.add(time)
             }
             adapter!!.notifyDataSetChanged()
         })

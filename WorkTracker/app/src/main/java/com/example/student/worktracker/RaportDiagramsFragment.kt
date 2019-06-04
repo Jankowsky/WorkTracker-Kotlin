@@ -16,6 +16,7 @@ import com.example.student.worktracker.Room.AppDb
 import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.data.*
+import kotlinx.android.synthetic.main.fragment_raport_diagrams.*
 import java.util.concurrent.Executors
 
 
@@ -34,8 +35,10 @@ class RaportDiagramsFragment : Fragment() {
     var spinner : Spinner? = null
     var spinner2 : Spinner? = null
     var categoryList : Array<String?>? = null
-    var periodTime :Array<String>? = null
+    var periodTime : Array<String?>? = null
     var chart : BarChart? = null
+    var mCategroy : String = "Week"
+    var mType : String = "All"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,9 +51,8 @@ class RaportDiagramsFragment : Fragment() {
     override fun onAttach(context: Context?) {
         super.onAttach(context)
 
-        periodTime = arrayOf(getString(R.string.week),getString(R.string.month),getString(R.string.year))
-
         db = AppDb(context!!)
+        periodTime = arrayOf(getString(R.string.week),getString(R.string.month),getString(R.string.year))
         val myExecutor = Executors.newSingleThreadExecutor()
         myExecutor.execute {
             var raports = db!!.raportDao().getCategories()
@@ -86,6 +88,7 @@ class RaportDiagramsFragment : Fragment() {
 
                 }
                 override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                    mCategroy = categoryList!![position].toString()
                     showSelectedDiagram()
                 }
             }
@@ -94,6 +97,7 @@ class RaportDiagramsFragment : Fragment() {
 
                 }
                 override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                    mType = periodTime!![position].toString()
                     showSelectedDiagram()
                 }
             }
@@ -104,11 +108,43 @@ class RaportDiagramsFragment : Fragment() {
     {
         var i =0
         val entries = ArrayList<BarEntry>()
+
+        if(mCategroy == getString(R.string.all))
+        {
+            if(mType == getString(R.string.week))
+            {
+
+            }
+            else if(mType == getString(R.string.month))
+            {
+
+            }
+            else if(mType == getString(R.string.year))
+            {
+
+            }
+        }
+        else
+        {
+            if(mType == getString(R.string.week))
+            {
+
+            }
+            else if(mType == getString(R.string.month))
+            {
+
+            }
+            else if(mType == getString(R.string.year))
+            {
+
+            }
+        }
         for (data in categoryList!!) {
             // turn your data into Entry objects
             entries.add(BarEntry(200f+i, 10f+i))
             i++
         }
+
         var dataSet = BarDataSet(entries, "Work")
         var linedata = BarData(dataSet)
         chart!!.setData(linedata)

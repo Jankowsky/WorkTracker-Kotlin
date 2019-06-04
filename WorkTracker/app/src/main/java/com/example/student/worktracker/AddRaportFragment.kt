@@ -89,6 +89,9 @@ class AddRaportFragment : Fragment() {
                             in_date!!.setText(
                                 dayOfMonth.toString() + "-" + (monthOfYear + 1) + "-" + year
                             )
+                            mDay = dayOfMonth
+                            mMonth = monthOfYear+1
+                            mYear = year
                         }, mYear, mMonth, mDay
                     )
                     datePickerDialog.show()
@@ -166,7 +169,7 @@ class AddRaportFragment : Fragment() {
 
                     var raport = Raport()
                     raport.Category = entryCategory!!.text.toString()
-                    var format = SimpleDateFormat("DD/MM/yyyy hh:mm")
+                    var format = SimpleDateFormat("dd/MM/yyyy HH:mm")
                     mHour = mStartTime / 60
                     mMinute = mStartTime % 60
                     var date =format.parse("$mDay/$mMonth/$mYear $mHour:$mMinute")
