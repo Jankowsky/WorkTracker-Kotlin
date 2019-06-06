@@ -31,14 +31,15 @@
             android:layout_below="@+id/entryCompany"
             android:gravity="center"
             android:layout_marginTop="10dp"/>
-    <EditText
+    <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/in_date"
             android:layout_below="@+id/textViewDate"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_marginTop="10dp"/>
+            android:layout_marginTop="10dp"
+            android:textSize="20dp"/>
     <Button
             android:id="@+id/selectDateBtn"
             android:layout_width="wrap_content"
@@ -60,14 +61,15 @@
             android:layout_below="@+id/selectDateBtn"
             android:gravity="center"
             android:layout_marginTop="20dp"/>
-    <EditText
+    <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/in_startTime"
             android:layout_below="@+id/textViewStart"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_marginTop="17dp"/>
+            android:layout_marginTop="17dp"
+            android:textSize="20dp"/>
     <Button
             android:id="@+id/selectStartTimeBtn"
             android:layout_width="wrap_content"
@@ -90,14 +92,15 @@
             android:layout_below="@+id/in_startTime"
             android:gravity="center"
             android:layout_marginTop="15dp"/>
-    <EditText
+    <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/in_endTime"
             android:layout_below="@+id/textViewEnd"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_marginTop="8dp"/>
+            android:layout_marginTop="8dp"
+            android:textSize="20dp"/>
     <Button
             android:id="@+id/selectEndTimeBtn"
             android:layout_width="wrap_content"

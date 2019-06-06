@@ -8,8 +8,6 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
 import com.example.student.worktracker.Room.AppDb
 import com.example.student.worktracker.Room.Raport
 import kotlinx.android.synthetic.main.list_row_layout.*
@@ -17,11 +15,9 @@ import java.util.*
 import java.util.concurrent.Executors
 import android.app.Activity
 import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
-import android.widget.DatePicker
 import android.app.DatePickerDialog
-import android.widget.TimePicker
 import android.app.TimePickerDialog
+import android.widget.*
 import java.text.SimpleDateFormat
 
 
@@ -42,9 +38,9 @@ class AddRaportFragment : Fragment() {
     var selectDateBtn : Button? = null
     var selectStartTimeBtn : Button? = null
     var selectEndTimeBtn : Button? = null
-    var in_date : EditText? = null
-    var in_startTime : EditText? = null
-    var in_endTime : EditText? = null
+    var in_date : TextView? = null
+    var in_startTime : TextView? = null
+    var in_endTime : TextView? = null
 
     private var mYear: Int = 0
     private var mMonth: Int = 0
