@@ -2,8 +2,10 @@ package com.example.student.worktracker
 
 
 import android.content.Context
+import android.content.DialogInterface
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,6 +32,8 @@ class RaportListViewFragment : Fragment() {
      var listItemsWorkTime : ArrayList<String> = arrayListOf()
      var listItemsCategory  : ArrayList<String> = arrayListOf()
      var listItemsDate : ArrayList<String> = arrayListOf()
+
+
 
 
     override fun onAttach(context: Context?) {
@@ -87,7 +91,8 @@ class RaportListViewFragment : Fragment() {
         activity!!.runOnUiThread(Runnable {
             RaportList = activity!!.findViewById(R.id.RaportsList)
             RaportList!!.onItemLongClickListener = AdapterView.OnItemLongClickListener { parent, view, position, id ->
-                removeItem(position)
+                showDialog(position)
+                //removeItem(position)
 
                 true
             }
@@ -115,6 +120,48 @@ class RaportListViewFragment : Fragment() {
         })
     }
 
+    private fun showDialog(position : Int){
+        // Late initialize an alert dialog object
+        lateinit var dialog: AlertDialog
+
+
+        // Initialize a new instance of alert dialog builder object
+        val builder = AlertDialog.Builder(activity!!)
+
+        // Set a title for alert dialog
+        builder.setTitle(getString(R.string.alertTitle))
+
+        // Set a message for alert dialog
+        builder.setMessage(getString(R.string.alertQuestion))
+
+
+        // On click listener for dialog buttons
+        val dialogClickListener = DialogInterface.OnClickListener{ _, which ->
+            when(which){
+                DialogInterface.BUTTON_POSITIVE -> {
+                    removeItem(position)
+                    toast(getString(R.string.deleted))
+                }
+                DialogInterface.BUTTON_NEGATIVE -> toast(getString(R.string.aborted))
+            }
+        }
+
+
+        // Set the alert dialog positive/yes button
+        builder.setPositiveButton(getString(R.string.yes),dialogClickListener)
+
+        // Set the alert dialog negative/no button
+        builder.setNegativeButton(getString(R.string.no),dialogClickListener)
+
+
+
+        // Initialize the AlertDialog using builder object
+        dialog = builder.create()
+
+        // Finally, display the alert dialog
+        dialog.show()
+    }
+
     fun removeItem(id : Int)
     {
         val myExecutor = Executors.newSingleThreadExecutor()
@@ -122,6 +169,10 @@ class RaportListViewFragment : Fragment() {
             db!!.raportDao().deleteRaport(listItemsDate!![id].toString())
             refreshList()
         }
+    }
+
+    fun toast(message: String) {
+        Toast.makeText(activity!!, message, Toast.LENGTH_SHORT).show()
     }
 
 }

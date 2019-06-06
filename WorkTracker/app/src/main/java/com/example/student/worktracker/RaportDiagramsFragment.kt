@@ -18,6 +18,10 @@ import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.data.*
 import kotlinx.android.synthetic.main.fragment_raport_diagrams.*
 import java.util.concurrent.Executors
+import com.github.mikephil.charting.components.Legend.LegendForm
+import com.github.mikephil.charting.components.Legend
+
+
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -39,6 +43,8 @@ class RaportDiagramsFragment : Fragment() {
     var chart : BarChart? = null
     var mCategroy : String = "Week"
     var mType : String = "All"
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -82,6 +88,23 @@ class RaportDiagramsFragment : Fragment() {
             spinner = activity!!.findViewById(R.id.spinner)
             spinner2 = activity!!.findViewById(R.id.spinner2)
             chart = activity!!.findViewById(R.id.chart) as BarChart
+
+            chart!!.setDrawBarShadow(false)
+            chart!!.setDrawValueAboveBar(true)
+
+            chart!!.setMaxVisibleValueCount(60)
+            chart!!.getDescription().setEnabled(false)
+
+            val l = chart!!.getLegend()
+            l.verticalAlignment = Legend.LegendVerticalAlignment.BOTTOM
+            l.horizontalAlignment = Legend.LegendHorizontalAlignment.RIGHT
+            l.orientation = Legend.LegendOrientation.HORIZONTAL
+            l.setDrawInside(false)
+            l.form = LegendForm.SQUARE
+            l.formSize = 15f
+            l.textSize = 20f
+            l.xEntrySpace = 4f
+
 
             spinner!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -146,8 +169,34 @@ class RaportDiagramsFragment : Fragment() {
         }
 
         var dataSet = BarDataSet(entries, "Work")
+        dataSet.setDrawIcons(false)
+        dataSet.color = R.color.primaryDarkColor
+
         var linedata = BarData(dataSet)
+        linedata.setValueTextSize(15f)
+        linedata.setBarWidth(0.2f)
+
         chart!!.setData(linedata)
         chart!!.invalidate()
+    }
+
+    ///////////// TODO: get, prepare and show data
+    fun getRaports(cat: String) // Selected company
+    {
+        val myExecutor = Executors.newSingleThreadExecutor()
+        myExecutor.execute {
+            var raports = db!!.raportDao().selectCategory(cat)
+            val entriesList = ArrayList<BarEntry>()
+
+            for(raport in raports)
+            {
+                //entriesList.add(BarEntry())
+            }
+        }
+    }
+
+    fun getRaports()  // Show all companys
+    {
+
     }
 }

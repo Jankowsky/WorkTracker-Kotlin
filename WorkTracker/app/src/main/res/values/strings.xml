@@ -22,4 +22,10 @@
     <string name="hour">h</string>
     <string name="and">and</string>
     <string name="minutes">min.</string>
+    <string name="alertTitle">Delete</string>
+    <string name="alertQuestion">Do you want to delete this item ?</string>
+    <string name="deleted">Deleted</string>
+    <string name="aborted">Aborted</string>
+    <string name="yes">YES</string>
+    <string name="no">NO</string>
 </resources>
