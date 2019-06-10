@@ -11,16 +11,16 @@ interface RaportDao
     @Insert
     fun addRaport(raport: Raport)
 
-    @Query("SELECT * FROM raports")
+    @Query("SELECT * FROM raports ORDER BY StartDate")
     fun getRaports() : List<Raport>
 
-    @Query("SELECT Category FROM raports GROUP BY Category")
+    @Query("SELECT Category FROM raports GROUP BY Category ORDER BY Category")
     fun getCategories() : List<String>
 
     @Query("DELETE FROM raports WHERE StartDate = :startDate")
     fun deleteRaport(startDate: String)
 
-    @Query("SELECT * FROM raports WHERE Category = :category")
+    @Query("SELECT * FROM raports WHERE Category = :category ORDER BY StartDate")
     fun selectCategory(category: String): List<Raport>
 
 }

@@ -18,6 +18,7 @@ import android.view.inputmethod.InputMethodManager
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.widget.*
+import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 
 
@@ -42,6 +43,7 @@ class AddRaportFragment : Fragment() {
     var in_startTime : TextView? = null
     var in_endTime : TextView? = null
 
+    var formatter = DecimalFormat("00")
     private var mYear: Int = 0
     private var mMonth: Int = 0
     private var mDay: Int = 0
@@ -68,9 +70,6 @@ class AddRaportFragment : Fragment() {
                 addButton!!.setOnClickListener {
                     addRaport()
                     hideSoftKeyboard(activity!!)
-                    //(activity as MainActivity).createRaportListViewFragment()
-                    //hideSoftKeyboard(activity!!)
-                    //Toast.makeText(activity!!, "added raport", Toast.LENGTH_SHORT).show()
                 }
 
                 selectDateBtn!!.setOnClickListener {
@@ -83,7 +82,7 @@ class AddRaportFragment : Fragment() {
                     val datePickerDialog = DatePickerDialog(activity,
                         DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
                             in_date!!.setText(
-                                dayOfMonth.toString() + "-" + (monthOfYear + 1) + "-" + year
+                                formatter.format(dayOfMonth) + "-" + formatter.format(monthOfYear + 1) + "-" + year
                             )
                             mDay = dayOfMonth
                             mMonth = monthOfYear+1
@@ -101,7 +100,7 @@ class AddRaportFragment : Fragment() {
                     // Launch Time Picker Dialog
                     val timePickerDialog = TimePickerDialog(activity,
                         TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
-                            in_startTime!!.setText("$hourOfDay:$minute")
+                            in_startTime!!.setText("${formatter.format(hourOfDay)}:${formatter.format(minute)}")
                             mStartTime = (hourOfDay*60)+minute},
                         mHour,
                         mMinute,
@@ -119,7 +118,7 @@ class AddRaportFragment : Fragment() {
                     // Launch Time Picker Dialog
                     val timePickerDialog = TimePickerDialog(activity,
                         TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
-                            in_endTime!!.setText("$hourOfDay:$minute")
+                            in_endTime!!.setText("${formatter.format(hourOfDay)}:${formatter.format(minute)}")
                             mEndTime = (hourOfDay*60)+minute},
                         mHour,
                         mMinute,
@@ -164,7 +163,8 @@ class AddRaportFragment : Fragment() {
                 myExecutor.execute {
 
                     var raport = Raport()
-                    raport.Category = entryCategory!!.text.toString()
+                    var company = entryCategory!!.text.toString()
+                    raport.Category = company.capitalize()
                     var format = SimpleDateFormat("dd/MM/yyyy HH:mm")
                     mHour = mStartTime / 60
                     mMinute = mStartTime % 60
