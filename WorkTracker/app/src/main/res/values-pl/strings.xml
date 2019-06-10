@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">WorkTracker</string>
+    <string name="title_home">Lista raportów</string>
+    <string name="title_dashboard">Dodaj raport</string>
+    <string name="title_notifications">Diagramy</string>
+    <string name="enterCompany">Nazwa firmy :</string>
+    <string name="pickStartDate">Początek o :</string>
+    <string name="pickEndDate">Koniec o :</string>
+    <string name="addRaport">Zatwierdź</string>
+    <string name="all">Wszystkie</string>
+    <string name="week">Tydzień</string>
+    <string name="month">Miesiąc</string>
+    <string name="year">Rok</string>
+    <string name="pickDate">Wybierz date:</string>
+    <string name="seletDate">Zmień date</string>
+    <string name="selectTime">Zmień czas</string>
+    <string name="fillEmpty">Wypełnij puste pola</string>
+    <string name="addedRaport">Raport dodany</string>
+    <string name="timeError">Nie można dodać ujemnej ilości godzin.</string>
+    <string name="hour">godz</string>
+    <string name="and">i</string>
+    <string name="minutes">min.</string>
+    <string name="alertTitle">Usuń</string>
+    <string name="alertQuestion">Czy chcesz usunąć ten wpis?</string>
+    <string name="deleted">Usunięto</string>
+    <string name="aborted">Anulowano</string>
+    <string name="yes">TAK</string>
+    <string name="no">NIE</string>
+</resources>
