@@ -27,4 +27,19 @@
     <string name="aborted">Anulowano</string>
     <string name="yes">TAK</string>
     <string name="no">NIE</string>
+    <string name="workHours">Godziny pracy</string>
+    <string-array name="months">
+        <item>Sty</item>
+        <item>Lut</item>
+        <item>Mar</item>
+        <item>Kwi</item>
+        <item>Maj</item>
+        <item>Cze</item>
+        <item>Lip</item>
+        <item>Sie</item>
+        <item>Wrz</item>
+        <item>Paź</item>
+        <item>Lis</item>
+        <item>Gru</item>
+    </string-array>
 </resources>

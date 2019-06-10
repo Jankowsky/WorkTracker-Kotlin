@@ -90,7 +90,7 @@ class RaportListViewFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         activity!!.runOnUiThread(Runnable {
             RaportList = activity!!.findViewById(R.id.RaportsList)
-            RaportList!!.onItemLongClickListener = AdapterView.OnItemLongClickListener { parent, view, position, id ->
+            RaportList!!.onItemLongClickListener = AdapterView.OnItemLongClickListener { _, view, position, _ ->
                 showDialog(position)
                 //removeItem(position)
 
@@ -111,10 +111,10 @@ class RaportListViewFragment : Fragment() {
 
             for (i in 0 until raports.size) {
                 val raport = raports[i]
-                listItemsCategory!!.add(raport.Category)
-                listItemsDate!!.add(raport.StartDate)
+                listItemsCategory.add(raport.Category)
+                listItemsDate.add(raport.StartDate)
                 var time = "${raport.WorkTime/60} ${getString(R.string.hour)} ${getString(R.string.and)} ${raport.WorkTime%60} ${getString(R.string.minutes)}"
-                listItemsWorkTime!!.add(time)
+                listItemsWorkTime.add(time)
             }
             adapter!!.notifyDataSetChanged()
         })
@@ -166,7 +166,7 @@ class RaportListViewFragment : Fragment() {
     {
         val myExecutor = Executors.newSingleThreadExecutor()
         myExecutor.execute {
-            db!!.raportDao().deleteRaport(listItemsDate!![id].toString())
+            db!!.raportDao().deleteRaport(listItemsDate[id].toString())
             refreshList()
         }
     }

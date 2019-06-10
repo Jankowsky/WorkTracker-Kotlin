@@ -79,8 +79,8 @@ class AddRaportFragment : Fragment() {
                     mDay = c.get(Calendar.DAY_OF_MONTH)
 
 
-                    val datePickerDialog = DatePickerDialog(activity,
-                        DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+                    val datePickerDialog = DatePickerDialog(context!!,
+                        DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
                             in_date!!.setText(
                                 formatter.format(dayOfMonth) + "-" + formatter.format(monthOfYear + 1) + "-" + year
                             )
@@ -99,7 +99,7 @@ class AddRaportFragment : Fragment() {
 
                     // Launch Time Picker Dialog
                     val timePickerDialog = TimePickerDialog(activity,
-                        TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
+                        TimePickerDialog.OnTimeSetListener { _, hourOfDay, minute ->
                             in_startTime!!.setText("${formatter.format(hourOfDay)}:${formatter.format(minute)}")
                             mStartTime = (hourOfDay*60)+minute},
                         mHour,
@@ -117,7 +117,7 @@ class AddRaportFragment : Fragment() {
 
                     // Launch Time Picker Dialog
                     val timePickerDialog = TimePickerDialog(activity,
-                        TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
+                        TimePickerDialog.OnTimeSetListener { _, hourOfDay, minute ->
                             in_endTime!!.setText("${formatter.format(hourOfDay)}:${formatter.format(minute)}")
                             mEndTime = (hourOfDay*60)+minute},
                         mHour,
@@ -165,10 +165,12 @@ class AddRaportFragment : Fragment() {
                     var raport = Raport()
                     var company = entryCategory!!.text.toString()
                     raport.Category = company.capitalize()
-                    var format = SimpleDateFormat("dd/MM/yyyy HH:mm")
+                   // var format = SimpleDateFormat("dd/MM/yyyy HH:mm")
+                    var format = SimpleDateFormat("yyyy/MM/dd HH:mm")
                     mHour = mStartTime / 60
                     mMinute = mStartTime % 60
-                    var date =format.parse("$mDay/$mMonth/$mYear $mHour:$mMinute")
+                    //var date =format.parse("$mDay/$mMonth/$mYear $mHour:$mMinute")
+                    var date =  format.parse("$mYear/$mMonth/$mDay $mHour:$mMinute")
                     raport.StartDate = format.format(date)
                     raport.WorkTime = mEndTime - mStartTime
 

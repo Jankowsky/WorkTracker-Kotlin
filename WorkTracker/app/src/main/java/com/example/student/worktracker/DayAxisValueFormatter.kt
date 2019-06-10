@@ -1,18 +1,18 @@
 package com.example.student.worktracker
 
+import android.content.Context
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.github.mikephil.charting.charts.BarLineChartBase
+import android.support.v4.app.Fragment
 
 
-
-class DayAxisValueFormatter(chart: BarLineChartBase<*>) : ValueFormatter()
+class DayAxisValueFormatter(chart: BarLineChartBase<*>,context: Context) : ValueFormatter()
 {
 
-    private val mMonths = arrayOf("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
-
+    private  val mMonths = context.resources.getStringArray(R.array.months)
 
     private var chart: BarLineChartBase<*>? = chart
-
+    private var context: Context = context
 
     override fun getFormattedValue(value: Float): String {
 

@@ -148,7 +148,7 @@ class RaportDiagramsFragment : Fragment() {
             {
 
                 chart!!.minOffset = 20f
-                var xAxisFormatter : ValueFormatter = DayAxisValueFormatter(chart!!)
+                var xAxisFormatter : ValueFormatter = DayAxisValueFormatter(chart!!,activity!!)
                 val xAxis = chart!!.getXAxis()
                 xAxis.position = XAxisPosition.BOTTOM
                 xAxis.setDrawGridLines(false)
@@ -171,7 +171,7 @@ class RaportDiagramsFragment : Fragment() {
                 myExecutor.execute {
                     raports = db!!.raportDao().getRaports()
 
-                    var format = SimpleDateFormat("dd/MM/yyyy HH:mm")
+                    var format = SimpleDateFormat("yyyy/MM/dd HH:mm")
 
                     for (cat in categoryList!!)
                     {
@@ -236,7 +236,7 @@ class RaportDiagramsFragment : Fragment() {
                 myExecutor.execute {
                     raports = db!!.raportDao().getRaports()
 
-                    var format = SimpleDateFormat("dd/MM/yyyy HH:mm")
+                    var format = SimpleDateFormat("yyyy/MM/dd HH:mm")
 
                     for (cat in categoryList!!)
                     {
@@ -285,7 +285,7 @@ class RaportDiagramsFragment : Fragment() {
             {
                 val xAxis = chart!!.getXAxis()
                 xAxis.position = XAxisPosition.BOTTOM
-                var xAxisFormatter : ValueFormatter = DayAxisValueFormatter(chart!!)
+                var xAxisFormatter : ValueFormatter = DayAxisValueFormatter(chart!!, activity!!)
                 xAxis.valueFormatter = xAxisFormatter
                 xAxis.setDrawGridLines(false)
                 xAxis.granularity = 1f // only intervals of 1 day
@@ -300,7 +300,7 @@ class RaportDiagramsFragment : Fragment() {
                 myExecutor.execute {
                     raports = db!!.raportDao().getRaports()
 
-                    var format = SimpleDateFormat("dd/MM/yyyy HH:mm")
+                    var format = SimpleDateFormat("yyyy/MM/dd HH:mm")
 
                     for (cat in categoryList!!)
                     {
@@ -351,7 +351,7 @@ class RaportDiagramsFragment : Fragment() {
             {
 
                 chart!!.minOffset = 20f
-                var xAxisFormatter : ValueFormatter = DayAxisValueFormatter(chart!!)
+                var xAxisFormatter : ValueFormatter = DayAxisValueFormatter(chart!!, activity!!)
                 val xAxis = chart!!.getXAxis()
                 xAxis.position = XAxisPosition.BOTTOM
                 xAxis.setDrawGridLines(false)
@@ -374,7 +374,7 @@ class RaportDiagramsFragment : Fragment() {
                 myExecutor.execute {
                     raports = db!!.raportDao().selectCategory(mCategroy)
 
-                    var format = SimpleDateFormat("dd/MM/yyyy HH:mm")
+                    var format = SimpleDateFormat("yyyy/MM/dd HH:mm")
 
                     for(raport in raports)
                     {
@@ -390,7 +390,7 @@ class RaportDiagramsFragment : Fragment() {
                         }
                     }
 
-                    var dataSet = BarDataSet(entriesList, "Work hours")
+                    var dataSet = BarDataSet(entriesList, getString(R.string.workHours))
                     dataSet.setDrawIcons(false)
                     dataSet.color = R.color.primaryDarkColor
 
@@ -423,7 +423,7 @@ class RaportDiagramsFragment : Fragment() {
                 myExecutor.execute {
                     raports = db!!.raportDao().selectCategory(mCategroy)
 
-                    var format = SimpleDateFormat("dd/MM/yyyy HH:mm")
+                    var format = SimpleDateFormat("yyyy/MM/dd HH:mm")
 
                     for(raport in raports)
                     {
@@ -438,7 +438,7 @@ class RaportDiagramsFragment : Fragment() {
                         }
                     }
 
-                    var dataSet = BarDataSet(entriesList, "Work hours")
+                    var dataSet = BarDataSet(entriesList, getString(R.string.workHours))
                     dataSet.setDrawIcons(false)
                     dataSet.color = R.color.primaryDarkColor
 
@@ -456,7 +456,7 @@ class RaportDiagramsFragment : Fragment() {
             {
                 val xAxis = chart!!.getXAxis()
                 xAxis.position = XAxisPosition.BOTTOM
-                var xAxisFormatter : ValueFormatter = DayAxisValueFormatter(chart!!)
+                var xAxisFormatter : ValueFormatter = DayAxisValueFormatter(chart!!, activity!!)
                 xAxis.valueFormatter = xAxisFormatter
                 xAxis.setDrawGridLines(false)
                 xAxis.granularity = 1f // only intervals of 1 day
@@ -471,7 +471,7 @@ class RaportDiagramsFragment : Fragment() {
                 myExecutor.execute {
                     raports = db!!.raportDao().selectCategory(mCategroy)
 
-                    var format = SimpleDateFormat("dd/MM/yyyy HH:mm")
+                    var format = SimpleDateFormat("yyyy/MM/dd HH:mm")
 
                     for(raport in raports)
                     {
@@ -485,7 +485,8 @@ class RaportDiagramsFragment : Fragment() {
                         }
                     }
 
-                    var dataSet = BarDataSet(entriesList, "Work hours")
+
+                    var dataSet = BarDataSet(entriesList, getString(R.string.workHours))
                     dataSet.setDrawIcons(false)
                     dataSet.color = R.color.primaryDarkColor
 
