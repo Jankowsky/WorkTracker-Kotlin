@@ -22,7 +22,6 @@ import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 
 
-// TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -53,6 +52,9 @@ class AddRaportFragment : Fragment() {
     private var mEndTime: Int = 0
 
 
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.fragment_add_raport, container, false)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -87,6 +89,7 @@ class AddRaportFragment : Fragment() {
                             mDay = dayOfMonth
                             mMonth = monthOfYear+1
                             mYear = year
+                            hideSoftKeyboard(activity!!)
                         }, mYear, mMonth, mDay
                     )
                     datePickerDialog.show()
@@ -130,14 +133,6 @@ class AddRaportFragment : Fragment() {
         })
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-
-        return inflater.inflate(R.layout.fragment_add_raport, container, false)
-    }
 
     fun hideSoftKeyboard(activity: Activity) {
         val inputMethodManager = activity.getSystemService(
@@ -145,7 +140,6 @@ class AddRaportFragment : Fragment() {
         ) as InputMethodManager
         if(inputMethodManager.isActive)
         {
-            //inputMethodManager.hideSoftInputFromWindow( activity.currentFocus!!.windowToken, 0 )
             inputMethodManager.hideSoftInputFromWindow( getView()!!.getRootView().getWindowToken(), 0 )
 
         }
@@ -165,7 +159,6 @@ class AddRaportFragment : Fragment() {
                     var raport = Raport()
                     var company = entryCategory!!.text.toString()
                     raport.Category = company.capitalize()
-                   // var format = SimpleDateFormat("dd/MM/yyyy HH:mm")
                     var format = SimpleDateFormat("yyyy/MM/dd HH:mm")
                     mHour = mStartTime / 60
                     mMinute = mStartTime % 60
@@ -175,9 +168,7 @@ class AddRaportFragment : Fragment() {
                     raport.WorkTime = mEndTime - mStartTime
 
                     db!!.raportDao().addRaport(raport)
-                    //activity!!.runOnUiThread(Runnable {
-                    //   entryCategory!!.setText("")
-                    //})
+
                 }
                 Toast.makeText(activity!!, getString(R.string.addedRaport), Toast.LENGTH_SHORT).show()
             }

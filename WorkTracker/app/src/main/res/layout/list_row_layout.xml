@@ -34,5 +34,13 @@
             android:layout_alignParentRight="true"
             android:textColor="#343434"
             android:textSize="17dp" />
+    <TextView
+            android:id="@+id/dateEnd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/date"
+            android:layout_alignParentRight="true"
+            android:textColor="#343434"
+            android:textSize="17dp" />
 
 </RelativeLayout>

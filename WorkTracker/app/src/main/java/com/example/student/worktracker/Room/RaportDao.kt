@@ -20,6 +20,9 @@ interface RaportDao
     @Query("DELETE FROM raports WHERE StartDate = :startDate")
     fun deleteRaport(startDate: String)
 
+    @Delete
+    fun deleteRaport(raport: Raport)
+
     @Query("SELECT * FROM raports WHERE Category = :category ORDER BY StartDate")
     fun selectCategory(category: String): List<Raport>
 

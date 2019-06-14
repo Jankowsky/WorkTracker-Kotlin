@@ -34,7 +34,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-// TODO: Rename parameter arguments, choose names that match
+
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -107,14 +107,14 @@ class RaportDiagramsFragment : Fragment() {
             chart!!.getDescription().setEnabled(false)
 
             val l = chart!!.getLegend()
-            l.verticalAlignment = Legend.LegendVerticalAlignment.BOTTOM
-            l.horizontalAlignment = Legend.LegendHorizontalAlignment.RIGHT
+            l.verticalAlignment = Legend.LegendVerticalAlignment.TOP
+            l.horizontalAlignment = Legend.LegendHorizontalAlignment.CENTER
             l.orientation = Legend.LegendOrientation.HORIZONTAL
             l.setDrawInside(false)
             l.form = LegendForm.SQUARE
-            l.formSize = 6f
-            l.textSize = 13f
-            l.xEntrySpace = 3f
+            l.formSize = 7f
+            l.textSize = 14f
+            l.xEntrySpace = 4f
 
 
             spinner!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -233,6 +233,7 @@ class RaportDiagramsFragment : Fragment() {
                 var raports : List<Raport>
                 var entriesList = ArrayList<ArrayList<BarEntry>>()
                 val myExecutor = Executors.newSingleThreadExecutor()
+
                 myExecutor.execute {
                     raports = db!!.raportDao().getRaports()
 
@@ -245,9 +246,10 @@ class RaportDiagramsFragment : Fragment() {
                             entriesList.add(ArrayList())
                         }
                     }
-
+                    var sumHours : IntArray = IntArray(raports.size)
                     for(raport in raports)
                     {
+
                         var date = format.parse(raport.StartDate)
                         var mCalendar = Calendar.getInstance()
                         mCalendar.setTime(date)
@@ -256,6 +258,7 @@ class RaportDiagramsFragment : Fragment() {
                             mCalendar.get(Calendar.YEAR) == calendar.get(Calendar.YEAR))
                         {
                             entriesList[categoryList!!.indexOf(raport.Category)-1].add(BarEntry(dayOfYear.toFloat(), raport.WorkTime.toFloat()/60))
+                            sumHours[categoryList!!.indexOf(raport.Category)] += raport.WorkTime
                         }
 
                     }
@@ -265,7 +268,7 @@ class RaportDiagramsFragment : Fragment() {
                     var rnd = Random()
                     for (entry in entriesList)
                     {
-                        set.add(BarDataSet(entry, categoryList!![i]))
+                        set.add(BarDataSet(entry, categoryList!![i] + " " + sumHours[i]/60 + ":" + sumHours[i]%60 ))
                         set[i-1].setDrawIcons(false)
                         set[i-1].color = Color.rgb(rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256))
                         i++

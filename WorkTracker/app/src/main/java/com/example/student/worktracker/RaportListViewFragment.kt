@@ -11,12 +11,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import com.example.student.worktracker.Room.AppDb
+import com.example.student.worktracker.Room.Raport
 import kotlinx.android.synthetic.main.list_row_layout.*
 import java.util.*
 import java.util.concurrent.Executors
+import kotlin.collections.ArrayList
 
 
-// TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -29,9 +30,10 @@ class RaportListViewFragment : Fragment() {
      var adapter : com.example.student.worktracker.ListAdapter?= null
      var db : AppDb? = null
      var RaportList: ListView? = null
-     var listItemsWorkTime : ArrayList<String> = arrayListOf()
-     var listItemsCategory  : ArrayList<String> = arrayListOf()
-     var listItemsDate : ArrayList<String> = arrayListOf()
+     //var listItemsWorkTime : ArrayList<String> = arrayListOf()
+     //var listItemsCategory  : ArrayList<String> = arrayListOf()
+     //var listItemsDate : ArrayList<String> = arrayListOf()
+     var raports : ArrayList<Raport> = arrayListOf()
 
 
 
@@ -43,7 +45,7 @@ class RaportListViewFragment : Fragment() {
         val myExecutor = Executors.newSingleThreadExecutor()
         myExecutor.execute{
             refreshList()
-            adapter = com.example.student.worktracker.ListAdapter(activity!!, listItemsCategory, listItemsDate, listItemsWorkTime)
+            adapter = ListAdapter(activity!!, raports)
             activity!!.runOnUiThread(Runnable {
                 RaportList!!.adapter = adapter
                 adapter!!.notifyDataSetChanged()
@@ -89,10 +91,12 @@ class RaportListViewFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         activity!!.runOnUiThread(Runnable {
+
             RaportList = activity!!.findViewById(R.id.RaportsList)
+
             RaportList!!.onItemLongClickListener = AdapterView.OnItemLongClickListener { _, view, position, _ ->
+
                 showDialog(position)
-                //removeItem(position)
 
                 true
             }
@@ -102,19 +106,14 @@ class RaportListViewFragment : Fragment() {
 
     fun refreshList()
     {
-        var raports = db!!.raportDao().getRaports()
+        var getRaports = db!!.raportDao().getRaports()
 
         activity!!.runOnUiThread(Runnable {
-            listItemsCategory.clear()
-            listItemsDate.clear()
-            listItemsWorkTime.clear()
+            raports.clear()
 
-            for (i in 0 until raports.size) {
-                val raport = raports[i]
-                listItemsCategory.add(raport.Category)
-                listItemsDate.add(raport.StartDate)
-                var time = "${raport.WorkTime/60} ${getString(R.string.hour)} ${getString(R.string.and)} ${raport.WorkTime%60} ${getString(R.string.minutes)}"
-                listItemsWorkTime.add(time)
+            for (i in 0 until getRaports.size) {
+                val raport = getRaports[i]
+                raports.add(raport)
             }
             adapter!!.notifyDataSetChanged()
         })
@@ -139,7 +138,7 @@ class RaportListViewFragment : Fragment() {
         val dialogClickListener = DialogInterface.OnClickListener{ _, which ->
             when(which){
                 DialogInterface.BUTTON_POSITIVE -> {
-                    removeItem(position)
+                    removeItem(raports[position])
                     toast(getString(R.string.deleted))
                 }
                 DialogInterface.BUTTON_NEGATIVE -> toast(getString(R.string.aborted))
@@ -162,11 +161,11 @@ class RaportListViewFragment : Fragment() {
         dialog.show()
     }
 
-    fun removeItem(id : Int)
+    fun removeItem(raport : Raport)
     {
         val myExecutor = Executors.newSingleThreadExecutor()
         myExecutor.execute {
-            db!!.raportDao().deleteRaport(listItemsDate[id].toString())
+            db!!.raportDao().deleteRaport(raport)
             refreshList()
         }
     }
